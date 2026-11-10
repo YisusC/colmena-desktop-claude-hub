@@ -1,0 +1,50 @@
+{
+  "name": "claude-hub",
+  "productName": "Colmena",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A desktop hive for Claude Code: organize, search and watch many sessions running side by side in embedded terminals.",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "electron",
+    "terminal",
+    "session-manager",
+    "xterm",
+    "vue"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron .",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && vue-tsc --noEmit -p tsconfig.web.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "node-pty": "1.1.0"
+  },
+  "devDependencies": {
+    "@fontsource/cascadia-code": "^5.3.0",
+    "@fontsource/public-sans": "^5.3.0",
+    "@types/node": "^24.19.2",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/addon-ligatures": "^0.10.0",
+    "@xterm/addon-unicode11": "^0.9.0",
+    "@xterm/addon-web-links": "^0.12.0",
+    "@xterm/addon-webgl": "^0.19.0",
+    "@xterm/xterm": "^6.0.0",
+    "electron": "^45.2.3",
+    "electron-vite": "^6.0.0",
+    "playwright-core": "^1.65.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.7",
+    "vitest": "^5.1.0",
+    "vue": "^3.5.45",
+    "vue-tsc": "^3.3.14"
+  }
+}
