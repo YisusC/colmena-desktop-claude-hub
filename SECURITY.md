@@ -7,7 +7,8 @@ Only the latest release receives security fixes.
 ## Reporting a vulnerability
 
 Please do not open a public issue. Report it privately through GitHub: open the repository's
-**Security** tab and choose **Report a vulnerability**. Include what you found, how to reproduce it
+**Security** tab and choose **Report a vulnerability**, or go straight to
+[github.com/YisusC/colmena-desktop-claude-hub/security/advisories/new](https://github.com/YisusC/colmena-desktop-claude-hub/security/advisories/new). Include what you found, how to reproduce it
 and what an attacker could do with it.
 
 You can expect an acknowledgement within a week. Fixes are released as soon as they are ready, and

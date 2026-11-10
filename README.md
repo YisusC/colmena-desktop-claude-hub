@@ -8,6 +8,7 @@
 Organize, search and watch many conversations running side by side, each in its own embedded
 terminal, without losing track of which one needs you.
 
+[![CI](https://github.com/YisusC/colmena-desktop-claude-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/YisusC/colmena-desktop-claude-hub/actions/workflows/ci.yml)
 ![License: MIT](https://img.shields.io/badge/license-MIT-4a8ad6)
 ![Platform: Windows 10 and 11](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-555)
 
@@ -100,8 +101,8 @@ icon from your disk), and drag a conversation onto another group to move it ther
 ## Getting started
 
 ```powershell
-git clone https://github.com/<you>/colmena.git
-cd colmena
+git clone https://github.com/YisusC/colmena-desktop-claude-hub.git
+cd colmena-desktop-claude-hub
 npm install
 npm run build
 npm start

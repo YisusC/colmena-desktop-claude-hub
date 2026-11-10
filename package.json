@@ -1,10 +1,16 @@
 {
-  "name": "claude-hub",
+  "name": "colmena-desktop-claude-hub",
   "productName": "Colmena",
   "version": "0.1.0",
   "private": true,
-  "description": "A desktop hive for Claude Code: organize, search and watch many sessions running side by side in embedded terminals.",
+  "description": "Organize, search and watch many Claude Code sessions side by side, each in its own embedded terminal. Unofficial desktop app for Windows.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YisusC/colmena-desktop-claude-hub.git"
+  },
+  "homepage": "https://github.com/YisusC/colmena-desktop-claude-hub#readme",
+  "bugs": "https://github.com/YisusC/colmena-desktop-claude-hub/issues",
   "keywords": [
     "claude-code",
     "electron",
