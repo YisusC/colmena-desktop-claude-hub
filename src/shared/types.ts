@@ -94,6 +94,8 @@ export type OpenResult =
   | { ok: true; sessionId: string; cwd: string }
   | { ok: false; error: string };
 
+export type DeleteResult = { ok: true; meta: HubMeta } | { ok: false; error: string };
+
 export interface ContextUsage {
   sessionId: string;
   usedPercentage: number | null;
@@ -134,6 +136,8 @@ export interface HubApi {
   setGroup(name: string, def: GroupDef | null): Promise<HubMeta>;
   setFolder(name: string, def: FolderDef | null): Promise<HubMeta>;
   renameGroup(from: string, to: string): Promise<HubMeta>;
+  /** Moves the transcript to the Recycle Bin and forgets its metadata. */
+  deleteSession(sessionId: string): Promise<DeleteResult>;
 
   openSession(req: OpenRequest): Promise<OpenResult>;
   writePty(sessionId: string, data: string): void;

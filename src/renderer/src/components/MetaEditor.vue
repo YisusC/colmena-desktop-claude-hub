@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { autoColor, PALETTE } from '@shared/meta';
 import { shortPath } from '../format';
-import { hub, knownGroups, metaOf, saveMeta, sessionById, state } from '../store';
+import { deleteSession, hub, knownGroups, metaOf, saveMeta, sessionById, state } from '../store';
 import Icon from './Icon.vue';
 
 const props = defineProps<{ id: string }>();
@@ -111,6 +111,9 @@ function copyResume(): void {
       <footer class="modal-foot">
         <button type="button" class="btn ghost" title="Para abrirla en Windows Terminal" @click="copyResume">
           <Icon name="copy" /> Copiar comando
+        </button>
+        <button v-if="s" type="button" class="btn ghost danger" title="Mueve el historial a la Papelera de reciclaje" @click="deleteSession(props.id)">
+          <Icon name="trash" /> Borrar
         </button>
         <span class="spacer"></span>
         <button type="button" class="btn" @click="close">Cancelar</button>

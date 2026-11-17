@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { agoShort } from '../format';
-import { findTab, openSession, SESSION_DRAG, state, togglePin, type Row } from '../store';
+import { deleteSession, findTab, openSession, SESSION_DRAG, state, togglePin, type Row } from '../store';
 import ContextMeter from './ContextMeter.vue';
 import GroupMark from './GroupMark.vue';
 import Icon from './Icon.vue';
@@ -77,6 +77,9 @@ function edit(): void {
       </button>
       <button class="icon-btn" title="Organizar: grupo, color, etiquetas y nota" aria-label="Organizar" @click="edit">
         <Icon name="pencil" />
+      </button>
+      <button class="icon-btn danger" title="Borrar conversación (va a la Papelera)" aria-label="Borrar conversación" @click="deleteSession(row.s.id)">
+        <Icon name="trash" />
       </button>
     </div>
   </div>

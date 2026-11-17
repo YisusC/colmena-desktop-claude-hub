@@ -18,6 +18,7 @@ const api: HubApi = {
   setGroup: (name, def) => ipcRenderer.invoke(IPC.setGroup, name, def),
   setFolder: (name, def) => ipcRenderer.invoke(IPC.setFolder, name, def),
   renameGroup: (from, to) => ipcRenderer.invoke(IPC.renameGroup, from, to),
+  deleteSession: (id) => ipcRenderer.invoke(IPC.deleteSession, id),
 
   openSession: (req) => ipcRenderer.invoke(IPC.open, req),
   writePty: (id, data) => ipcRenderer.send(IPC.write, id, data),

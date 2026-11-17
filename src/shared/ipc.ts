@@ -7,6 +7,7 @@ export const IPC = {
   setGroup: 'hub:set-group',
   setFolder: 'hub:set-folder',
   renameGroup: 'hub:rename-group',
+  deleteSession: 'hub:delete-session',
   open: 'pty:open',
   write: 'pty:write',
   replay: 'pty:replay',

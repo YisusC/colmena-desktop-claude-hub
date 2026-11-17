@@ -74,7 +74,8 @@ icon from your disk), and drag a conversation onto another group to move it ther
 - **Groups, colors and icons.** Conversations are grouped by project folder automatically; create
   your own groups, rename them, pick a color and an icon (built-in, or any image or `.exe` icon from
   your disk), and drag a conversation onto another group, onto *Pinned* or onto *Archived*. Tags
-  exist only to improve search.
+  exist only to improve search. A conversation you no longer need can be deleted: it goes to the
+  Windows Recycle Bin, so you can still restore it.
 - **Status at a glance.** Three dots while Claude works, a green check when it is done, a yellow
   icon when it asks for permission or asks you a question, a clock when it has been idle.
 - **Notifications.** A Windows notification with Claude's answer when a session finishes or asks
@@ -119,7 +120,10 @@ powershell -File scripts/crear-acceso-directo.ps1
 Everything stays on your machine.
 
 - **Reads** your Claude Code transcripts in `~/.claude/projects/**/*.jsonl` to list and search
-  them. It never writes to that folder.
+  them. It never writes to that folder. The only change it makes there is when you **delete a
+  conversation** (trash button on a row, or *Borrar* in its editor) and confirm: that session's
+  `.jsonl` and its folder of the same name (subagents, tool results) are moved to the Windows
+  Recycle Bin, where you can restore them.
 - **Writes** only to its own data folder, `%APPDATA%\claude-hub\`:
   - `meta.json`: your groups, colors, icons, tags, notes, pins and archive flags;
   - `index-cache.json`: the search index (safe to delete; it is rebuilt);
