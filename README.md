@@ -74,7 +74,8 @@ icon from your disk), and drag a conversation onto another group to move it ther
 - **Groups, colors and icons.** Conversations are grouped by project folder automatically; create
   your own groups, rename them, pick a color and an icon (built-in, or any image or `.exe` icon from
   your disk), and drag a conversation onto another group, onto *Pinned* or onto *Archived*. Tags
-  exist only to improve search.
+  exist only to improve search. A conversation you no longer need can be deleted: it goes to the
+  Windows Recycle Bin, so you can still restore it.
 - **Status at a glance.** Three dots while Claude works, a green check when it is done, a yellow
   icon when it asks for permission or asks you a question, a clock when it has been idle.
 - **Notifications.** A Windows notification with Claude's answer when a session finishes or asks
