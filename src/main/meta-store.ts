@@ -27,6 +27,15 @@ export class MetaStore {
     return this.meta;
   }
 
+  removeSession(sessionId: string): HubMeta {
+    if (!(sessionId in this.meta.sessions)) return this.meta;
+    const sessions = { ...this.meta.sessions };
+    delete sessions[sessionId];
+    this.meta = { ...this.meta, sessions };
+    this.save();
+    return this.meta;
+  }
+
   setGroup(name: unknown, def: GroupDef | null): HubMeta {
     if (typeof name !== 'string' || !name.trim()) return this.meta;
     const key = name.trim().slice(0, 60);

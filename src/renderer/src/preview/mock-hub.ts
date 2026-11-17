@@ -107,6 +107,13 @@ export async function installMockHub(): Promise<Fixture> {
       meta = { ...meta, groups, sessions };
       return meta;
     },
+    deleteSession: async (id) => {
+      fx.sessions = fx.sessions.filter((s) => s.id !== id);
+      const sessions = { ...meta.sessions };
+      delete sessions[id];
+      meta = { ...meta, sessions };
+      return { ok: true, meta };
+    },
     openSession: async (req) => {
       const s = fx.sessions.find((x) => x.id === req.sessionId);
       const name = req.kind === 'new' ? req.name || 'nueva' : (s?.title ?? 'sesión');

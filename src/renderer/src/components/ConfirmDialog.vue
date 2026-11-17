@@ -3,7 +3,9 @@ import { onMounted, ref } from 'vue';
 import { state } from '../store';
 
 const ok = ref<HTMLButtonElement>();
-onMounted(() => ok.value?.focus());
+const cancel = ref<HTMLButtonElement>();
+// Destructive: Enter must not confirm by accident.
+onMounted(() => (state.confirm?.danger ? cancel : ok).value?.focus());
 const answer = (v: boolean) => state.confirm?.resolve(v);
 </script>
 
@@ -14,8 +16,8 @@ const answer = (v: boolean) => state.confirm?.resolve(v);
       <p class="modal-text">{{ state.confirm.message }}</p>
       <footer class="modal-foot">
         <span class="spacer"></span>
-        <button class="btn" @click="answer(false)">Cancelar</button>
-        <button ref="ok" class="btn primary" @click="answer(true)">{{ state.confirm.okLabel }}</button>
+        <button ref="cancel" class="btn" @click="answer(false)">Cancelar</button>
+        <button ref="ok" class="btn" :class="state.confirm.danger ? 'danger' : 'primary'" @click="answer(true)">{{ state.confirm.okLabel }}</button>
       </footer>
     </div>
   </div>

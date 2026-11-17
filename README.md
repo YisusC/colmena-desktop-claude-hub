@@ -119,7 +119,10 @@ powershell -File scripts/crear-acceso-directo.ps1
 Everything stays on your machine.
 
 - **Reads** your Claude Code transcripts in `~/.claude/projects/**/*.jsonl` to list and search
-  them. It never writes to that folder.
+  them. It never writes to that folder. The only change it makes there is when you **delete a
+  conversation** (trash button on a row, or *Borrar* in its editor) and confirm: that session's
+  `.jsonl` and its folder of the same name (subagents, tool results) are moved to the Windows
+  Recycle Bin, where you can restore them.
 - **Writes** only to its own data folder, `%APPDATA%\claude-hub\`:
   - `meta.json`: your groups, colors, icons, tags, notes, pins and archive flags;
   - `index-cache.json`: the search index (safe to delete; it is rebuilt);

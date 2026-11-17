@@ -35,6 +35,7 @@ interface ConfirmRequest {
   title: string;
   message: string;
   okLabel: string;
+  danger?: boolean;
   resolve(ok: boolean): void;
 }
 
@@ -487,12 +488,13 @@ function runSearch(): void {
 watch(() => state.query, runSearch);
 watch(() => state.sessions, () => searching.value && runSearch());
 
-export function confirmDialog(title: string, message: string, okLabel = 'Continuar'): Promise<boolean> {
+export function confirmDialog(title: string, message: string, okLabel = 'Continuar', danger = false): Promise<boolean> {
   return new Promise((resolve) => {
     state.confirm = {
       title,
       message,
       okLabel,
+      danger,
       resolve: (ok) => {
         state.confirm = null;
         resolve(ok);
@@ -692,6 +694,42 @@ export async function moveToGroup(id: string, target: GroupKey): Promise<void> {
 export async function dropOnSection(id: string, section: 'pinned' | 'archived'): Promise<void> {
   const m = metaOf(id);
   state.meta = await hub.updateSessionMeta(id, section === 'pinned' ? { ...m, pinned: true, archived: false } : { ...m, archived: true, pinned: false });
+}
+
+/** Moves the transcript to the Recycle Bin; an open tab is closed first. */
+export async function deleteSession(id: string): Promise<void> {
+  const s = sessionById(id);
+  if (!s) return;
+  const title = displayTitle(s, metaOf(id));
+  const open = !!findTab(id);
+  const ago = Date.now() - s.mtimeMs;
+  const elsewhere = ago < RECENT_MS && (closedHere.get(id) ?? 0) < s.mtimeMs - 2000 && !open;
+  const ok = await confirmDialog(
+    '¿Borrar esta conversación?',
+    `«${title}» (${s.messageCount} mensajes) se moverá a la Papelera de reciclaje: desaparece de Colmena y de claude --resume. ` +
+      'Puedes recuperarla desde la Papelera.' +
+      (open ? ' Su pestaña se cerrará.' : '') +
+      (elsewhere ? ' Tuvo actividad hace poco: si sigue abierta en otra terminal, ciérrala primero.' : ''),
+    'Borrar',
+    true,
+  );
+  if (!ok) return;
+  if (open) {
+    await closeTab(id);
+    if (findTab(id)) return; // the user kept it open
+  }
+  // The index may drop the session before the reply arrives: an open editor would be left empty.
+  if (state.editingId === id) state.editingId = null;
+  if (state.contextPanel === id) state.contextPanel = null;
+  const r = await hub.deleteSession(id);
+  if (!r.ok) {
+    showToast(r.error);
+    return;
+  }
+  state.meta = r.meta;
+  state.sessions = state.sessions.filter((x) => x.id !== id);
+  delete state.context[id];
+  showToast(`«${title}» se movió a la Papelera`);
 }
 
 export async function togglePin(id: string): Promise<void> {

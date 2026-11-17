@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { app, BrowserWindow, clipboard, dialog, ipcMain, Menu, nativeTheme, Notification, session, shell } from 'electron';
 import { IPC } from '@shared/ipc';
-import type { ContextUsage, FolderDef, GroupDef, InitialState, OpenRequest, OpenResult } from '@shared/types';
+import type { ContextUsage, DeleteResult, FolderDef, GroupDef, InitialState, OpenRequest, OpenResult } from '@shared/types';
 import { resolveClaudePath, resolveNodePath } from './env';
 import HOOK_SCRIPT from './hub-hook.cjs?raw';
 import STATUSLINE_SCRIPT from './hub-statusline.cjs?raw';
@@ -194,6 +194,32 @@ async function start(): Promise<void> {
   });
   ipcMain.handle(IPC.close, async (_e, id: unknown) => {
     if (typeof id === 'string') await ptys?.close(id);
+  });
+
+  // Only the transcript the index knows for that ID, and only inside projectsDir. Goes to the
+  // Recycle Bin (recoverable), together with the folder of the same name (subagents, tool results).
+  ipcMain.handle(IPC.deleteSession, async (_e, id: unknown): Promise<DeleteResult> => {
+    if (typeof id !== 'string' || !UUID.test(id)) return { ok: false, error: 'ID de sesión inválido.' };
+    if (ptys?.has(id)) return { ok: false, error: 'Cierra la pestaña antes de borrar la conversación.' };
+    const s = indexer.find(id);
+    if (!s) return { ok: false, error: 'La sesión no está en el índice.' };
+    const file = path.resolve(s.file);
+    const rel = path.relative(projectsDir, file);
+    if (rel.startsWith('..') || path.isAbsolute(rel) || rel.split(/[\\/]/).length !== 2 || path.basename(file) !== `${id}.jsonl`) {
+      return { ok: false, error: 'El historial está fuera de la carpeta de Claude Code.' };
+    }
+    try {
+      await shell.trashItem(file);
+    } catch (err) {
+      return { ok: false, error: `No se pudo mover a la Papelera: ${err instanceof Error ? err.message : String(err)}` };
+    }
+    const extra = path.join(path.dirname(file), id);
+    if (isDir(extra)) await shell.trashItem(extra).catch(() => undefined);
+    fs.rmSync(path.join(ctxDir, `${id}.json`), { force: true });
+    delete context[id];
+    liveCwd.delete(id);
+    indexer.forget(id, file);
+    return { ok: true, meta: meta.removeSession(id) };
   });
 
   ipcMain.handle(IPC.pickIcon, () => pickIcon(win));

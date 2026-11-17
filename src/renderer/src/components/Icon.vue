@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  name: 'plus' | 'x' | 'pencil' | 'pin' | 'chevron' | 'search' | 'copy' | 'folder' | 'list' | 'keyboard' | 'grid' | 'expand' | 'shrink' | 'activity' | 'history' | 'home' | 'more';
+  name: 'plus' | 'x' | 'pencil' | 'pin' | 'chevron' | 'search' | 'copy' | 'folder' | 'list' | 'keyboard' | 'grid' | 'expand' | 'shrink' | 'activity' | 'history' | 'home' | 'more' | 'trash';
 }>();
 </script>
 
@@ -21,6 +21,7 @@ defineProps<{
     <path v-else-if="name === 'activity'" d="M1.5 8h3l2-4.5 3 9 2-4.5h3" />
     <path v-else-if="name === 'history'" d="M2.5 8a5.5 5.5 0 105.5-5.5A5.6 5.6 0 003.6 4.6M2.5 2.5V5H5M8 5v3l2 1.5" />
     <path v-else-if="name === 'home'" d="M2 7.5l6-5 6 5M3.5 6.5v7h9v-7M6.5 13.5v-4h3v4" />
+    <path v-else-if="name === 'trash'" d="M2.5 4h11M6 4V2.5h4V4M3.8 4l.7 9.5h7l.7-9.5M6.7 6.5v4.5M9.3 6.5v4.5" />
     <path v-else-if="name === 'more'" d="M3.5 8h.01M8 8h.01M12.5 8h.01" stroke-width="2.2" />
     <path v-else-if="name === 'keyboard'" d="M1.5 4h13v8h-13zM4 6.5h.01M6.5 6.5h.01M9 6.5h.01M11.5 6.5h.01M5 9.5h6" />
   </svg>

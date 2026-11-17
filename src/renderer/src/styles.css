@@ -55,6 +55,11 @@ code { font-family: var(--mono); font-size: 12px; }
 .btn.primary:hover { background: #e4e4e7; }
 .btn.ghost { border-color: transparent; color: var(--muted); }
 .btn.ghost:hover:not(:disabled) { color: var(--text); }
+.btn.danger { background: var(--negative); border-color: var(--negative); color: #ffffff; }
+.btn.danger:hover { background: #d1435c; border-color: #d1435c; }
+.btn.ghost.danger { background: transparent; border-color: transparent; color: var(--negative); }
+.btn.ghost.danger:hover { background: var(--pill-negative-bg); }
+.icon-btn.danger:hover { color: var(--negative); }
 .btn:disabled { color: var(--muted); cursor: default; }
 .btn .icon { width: 14px; height: 14px; }
 .icon-btn {

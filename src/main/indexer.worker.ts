@@ -10,7 +10,8 @@ import { SessionIndex } from './session-index';
 export type WorkerIn =
   | { type: 'search'; reqId: number; query: string }
   | { type: 'flush' }
-  | { type: 'lastAssistant'; reqId: number; sessionId: string };
+  | { type: 'lastAssistant'; reqId: number; sessionId: string }
+  | { type: 'refresh'; file: string };
 
 export type WorkerOut =
   | { type: 'status'; status: IndexStatus }
@@ -106,6 +107,11 @@ port.on('message', (msg: WorkerIn) => {
       // no transcript yet
     }
     post({ type: 'lastAssistantResult', reqId: msg.reqId, text });
+  } else if (msg.type === 'refresh') {
+    if (index.isTranscriptPath(msg.file) && index.update(msg.file)) {
+      emitSessions(0);
+      scheduleSave();
+    }
   } else if (msg.type === 'flush') {
     saveCacheNow();
     post({ type: 'flushed' });

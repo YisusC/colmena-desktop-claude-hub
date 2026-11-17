@@ -51,6 +51,12 @@ export class IndexerClient {
     });
   }
 
+  /** Drops a deleted session now instead of waiting for the watcher. */
+  forget(sessionId: string, file: string): void {
+    this.sessions = this.sessions.filter((s) => s.id !== sessionId);
+    this.post({ type: 'refresh', file });
+  }
+
   flush(timeoutMs = 1500): Promise<void> {
     return new Promise((resolve) => {
       const done = () => {
