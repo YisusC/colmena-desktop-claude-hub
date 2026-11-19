@@ -4,7 +4,7 @@ import { groupOf, type GroupKey } from '@shared/meta';
 import { ref } from 'vue';
 import { shortPath } from '../format';
 import {
-  activateTab, activeTabs, archivedRows, dropOnSection, groups, moveToGroup, SESSION_DRAG, metaOf, pinnedRows, rows, searching, sessionById, sideBadge, state, tabGroup,
+  activateTab, activeTabs, archivedRows, createSessionIn, dropOnSection, groups, moveToGroup, SESSION_DRAG, metaOf, pinnedRows, rows, searching, sessionById, sideBadge, state, tabGroup,
   tabTitle, type Tab,
 } from '../store';
 import ContextMeter from './ContextMeter.vue';
@@ -170,9 +170,14 @@ function onDrop(e: DragEvent, target: GroupKey | 'pinned' | 'archived'): void {
               <span class="label">{{ g.label }}</span>
               <span class="num count">{{ g.rows.length }}</span>
             </button>
-            <button class="icon-btn group-edit" :title="`Nombre, ícono y color de ${g.label} (clic derecho)`" :aria-label="`Editar ${g.label}`" @click="editGroup(g)">
-              <Icon name="pencil" />
-            </button>
+            <span class="group-actions">
+              <button class="icon-btn" :title="`Nueva conversación en ${g.label}`" :aria-label="`Nueva conversación en ${g.label}`" @click="createSessionIn(g)">
+                <Icon name="plus" />
+              </button>
+              <button class="icon-btn" :title="`Nombre, ícono y color de ${g.label} (clic derecho)`" :aria-label="`Editar ${g.label}`" @click="editGroup(g)">
+                <Icon name="pencil" />
+              </button>
+            </span>
           </h3>
           <template v-if="!state.collapsed[g.key]">
             <SessionRow v-for="r in g.rows" :key="r.s.id" :row="r" />

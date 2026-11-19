@@ -53,8 +53,8 @@ async function create(): Promise<void> {
 
       <label class="field">
         <span>Nombre</span>
-        <input ref="nameInput" v-model="form.name" name="session-name" placeholder="facturacion-reembolsos" maxlength="80" />
-        <small>Aparece en la pestaña y sirve para <code>claude --resume nombre</code>.</small>
+        <input ref="nameInput" v-model="form.name" name="session-name" placeholder="Opcional" maxlength="80" />
+        <small>Si lo dejas vacío, Claude Code le pone uno solo. Si lo escribes, sirve para <code>claude --resume nombre</code>.</small>
       </label>
 
       <div class="field-row">

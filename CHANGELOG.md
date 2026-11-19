@@ -11,6 +11,8 @@ First public version.
 - Lobby with live tiles for every open terminal and their phase (working, finished, asking, idle).
 - Embedded Claude Code terminals (xterm.js over ConPTY), with named sessions, resume, reorderable
   tabs and <kbd>Ctrl</kbd>+<kbd>1</kbd>…<kbd>9</kbd>.
+- A **+** on each History folder starts a conversation there in one click. The session name is
+  optional everywhere: left empty, Claude Code names it.
 - Sidebar with *Active* and *History* lists and full-text, accent-insensitive search.
 - Groups, colors, icons (built-in or from a file), folder aliases, drag to regroup, pin and archive.
 - Status icons, Windows notifications and in-app toasts when a session finishes or asks.
