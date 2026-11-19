@@ -564,6 +564,16 @@ export async function createSession(opts: { name: string; cwd: string; group: st
   activateTab(id);
 }
 
+/** The + of a folder in the history: a new session right there, with no dialog and no name (Claude Code names it). */
+export async function createSessionIn(g: GroupView): Promise<void> {
+  const cwd = [...g.rows].sort((a, b) => b.s.mtimeMs - a.s.mtimeMs).find((r) => r.s.cwd)?.s.cwd;
+  if (!cwd) {
+    state.newDialog = true;
+    return;
+  }
+  await createSession({ name: '', cwd, group: g.auto ? '' : g.label });
+}
+
 export function relaunch(id: string): void {
   const t = findTab(id);
   if (!t) return;

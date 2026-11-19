@@ -399,9 +399,10 @@ kbd { font-family: var(--mono); font-size: 12px; padding: 2px 6px; border-radius
 /* Folder icon and color */
 .group-mark { flex: none; display: block; }
 .group-head { position: relative; }
-.group-edit { position: absolute; right: 4px; top: 0; display: none; }
-.group-head:hover .group-edit, .group-edit:focus-visible { display: inline-grid; }
-.group-head:hover .count { visibility: hidden; }
+.group-actions { position: absolute; right: 4px; top: 0; display: none; gap: 2px; }
+.group-head:hover .group-actions, .group-actions:focus-within { display: flex; }
+.group-head:hover .count, .group-head:focus-within .count { visibility: hidden; }
+.group-head:hover .group-toggle, .group-head:focus-within .group-toggle { padding-right: 64px; }
 .cell-mark { display: inline-block; margin-right: 10px; vertical-align: -2px; }
 .group-editor-title { display: flex; align-items: center; gap: 8px; }
 fieldset.field { min-width: 0; margin: 0 0 16px; padding: 0; border: 0; }
