@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { app, BrowserWindow, clipboard, dialog, ipcMain, Menu, nativeTheme, Notification, session, shell } from 'electron';
 import { IPC } from '@shared/ipc';
-import type { ContextUsage, FolderDef, GroupDef, InitialState, OpenRequest, OpenResult } from '@shared/types';
+import type { ContextUsage, DeleteResult, FolderDef, GroupDef, InitialState, OpenRequest, OpenResult } from '@shared/types';
 import { resolveClaudePath, resolveNodePath } from './env';
 import HOOK_SCRIPT from './hub-hook.cjs?raw';
 import STATUSLINE_SCRIPT from './hub-statusline.cjs?raw';
@@ -46,6 +46,7 @@ import { openPulls, repoInfo } from './repo';
 import { IndexerClient } from './indexer-client';
 import { MetaStore } from './meta-store';
 import { PtyManager } from './pty-manager';
+import { trashTargets } from './trash';
 
 // Data stays in %APPDATA%/claude-hub even though the app is named Colmena; COLMENA_USER_DATA isolates it.
 app.setPath('userData', process.env.COLMENA_USER_DATA || path.join(app.getPath('appData'), 'claude-hub'));
@@ -194,6 +195,28 @@ async function start(): Promise<void> {
   });
   ipcMain.handle(IPC.close, async (_e, id: unknown) => {
     if (typeof id === 'string') await ptys?.close(id);
+  });
+
+  // Only the transcript the index knows for that ID (see trashTargets). It goes to the Recycle Bin, so
+  // it can be restored, together with the folder of the same name (subagents, tool results).
+  ipcMain.handle(IPC.deleteSession, async (_e, id: unknown): Promise<DeleteResult> => {
+    if (typeof id !== 'string' || !UUID.test(id)) return { ok: false, error: 'ID de sesión inválido.' };
+    if (ptys?.has(id)) return { ok: false, error: 'Cierra la pestaña antes de borrar la conversación.' };
+    const s = indexer.find(id);
+    if (!s) return { ok: false, error: 'La sesión no está en el índice.' };
+    const target = trashTargets(projectsDir, id, s.file);
+    if (!target) return { ok: false, error: 'El historial está fuera de la carpeta de Claude Code.' };
+    try {
+      await shell.trashItem(target.transcript);
+    } catch (err) {
+      return { ok: false, error: `No se pudo mover a la Papelera: ${err instanceof Error ? err.message : String(err)}` };
+    }
+    if (isDir(target.folder)) await shell.trashItem(target.folder).catch(() => undefined);
+    fs.rmSync(path.join(ctxDir, `${id}.json`), { force: true });
+    delete context[id];
+    liveCwd.delete(id);
+    indexer.forget(id, s.file);
+    return { ok: true, meta: meta.removeSession(id) };
   });
 
   ipcMain.handle(IPC.pickIcon, () => pickIcon(win));

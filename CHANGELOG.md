@@ -13,6 +13,8 @@ First public version.
   tabs and <kbd>Ctrl</kbd>+<kbd>1</kbd>…<kbd>9</kbd>.
 - Sidebar with *Active* and *History* lists and full-text, accent-insensitive search.
 - Groups, colors, icons (built-in or from a file), folder aliases, drag to regroup, pin and archive.
+- Delete a conversation from its row or its editor: after confirming, the transcript goes to the
+  Recycle Bin (recoverable) and its Colmena metadata is removed.
 - Status icons, Windows notifications and in-app toasts when a session finishes or asks.
 - Context donut per session and a **⋯** menu with context details, commits and open pull requests.
 - Drag files to paste paths, copy on select, Cascadia Code ligatures, resizable sidebar,
